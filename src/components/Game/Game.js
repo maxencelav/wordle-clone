@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { sample } from '../../utils';
+import { sample, range } from '../../utils';
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { WORDS } from '../../data';
 import GuessInput from '../GuessInput';
 import GuessSlots from '../GuessSlots/GuessSlots';
@@ -12,15 +13,27 @@ console.info({ answer });
 
 function Game() {
 
-  const [guesses, setGuesses] = React.useState([]);
+  const [guesses, setGuesses] = React.useState(range(NUM_OF_GUESSES_ALLOWED).map(() => undefined));
+  
 
   function handleGuess(guess) {
     console.log({guess:guess});
-    setGuesses(guesses => [...guesses, guess]);
+
+    // Replace the first empty guess with the new guess
+    const newGuesses = guesses.map((oldGuess, index) => {
+      if (oldGuess === undefined && index === guesses.indexOf(undefined)) {
+        // If the guess is undefined and it's the first one, return the new guess
+        return guess;
+      } else {
+        // Otherwise, return the old guess
+        return oldGuess;
+      }
+    });
+    setGuesses(newGuesses);
   }
 
   return <>
-    <GuessSlots guesses={guesses} />
+    <GuessSlots guessesArray={guesses} />
     <GuessInput handleGuessSubmit={handleGuess}/>
   </>;
 }

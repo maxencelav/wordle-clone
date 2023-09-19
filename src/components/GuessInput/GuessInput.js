@@ -16,7 +16,7 @@ function GuessInput({ handleGuessSubmit }) {
       type="text"
       value={guess}
       onChange={event => setGuess(event.target.value.toUpperCase())}
-      pattern="[A-Z]{1,5}"
+      pattern="[A-Z]{5}"
     />
   </form>;
 }
