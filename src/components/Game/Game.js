@@ -12,17 +12,14 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-
-  const [guesses, setGuesses] = React.useState(range(NUM_OF_GUESSES_ALLOWED).map(() => undefined));
+  const [guesses, setGuesses] = React.useState(range(NUM_OF_GUESSES_ALLOWED).map(() => ""));
   
 
   function handleGuess(guess) {
-    console.log({guess:guess});
-
     // Replace the first empty guess with the new guess
     const newGuesses = guesses.map((oldGuess, index) => {
-      if (oldGuess === undefined && index === guesses.indexOf(undefined)) {
-        // If the guess is undefined and it's the first one, return the new guess
+      if (oldGuess === "" && index === guesses.indexOf("")) {
+        // If the guess is "" and it's the first one, return the new guess
         return guess;
       } else {
         // Otherwise, return the old guess
@@ -33,7 +30,7 @@ function Game() {
   }
 
   return <>
-    <GuessSlots guessesArray={guesses} />
+    <GuessSlots guessesArray={guesses} answer={answer}/>
     <GuessInput handleGuessSubmit={handleGuess}/>
   </>;
 }
